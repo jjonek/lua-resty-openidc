@@ -124,7 +124,11 @@ end
 
 -- assemble the redirect_uri
 local function openidc_get_redirect_uri(opts)
-  return ngx.var.scheme.."://"..ngx.var.http_host..opts.redirect_uri_path
+  local scheme = ngx.var.scheme
+  if type(opts.redirect_uri_scheme) == "string" then
+    scheme = opts.redirect_uri_scheme
+  end
+  return scheme.."://"..ngx.var.http_host..opts.redirect_uri_path
 end
 
 -- perform base64url decoding
